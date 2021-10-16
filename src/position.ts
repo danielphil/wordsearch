@@ -1,4 +1,4 @@
-class Position {
+export class Position {
     readonly x;
     readonly y;
 

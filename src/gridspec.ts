@@ -1,4 +1,6 @@
-class GridSpec {
+import { Position } from "position";
+
+export class GridSpec {
     readonly width;
     readonly height;
 

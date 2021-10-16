@@ -1,3 +1,7 @@
+import { GridSpec } from "gridspec";
+import { RenderedGrid } from "renderedgrid";
+import { PlacedWord } from "placedword";
+
 function makeWordsearch() {
     const spec = new GridSpec(5, 2);
     const result = fit(["word", "toast"], [], spec);

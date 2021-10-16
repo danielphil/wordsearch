@@ -1,4 +1,8 @@
-class RenderedGrid {
+import { GridSpec } from "gridspec";
+import { PlacedWord } from "placedword";
+import { Position } from "position";
+
+export class RenderedGrid {
     readonly gridSpec;
     readonly grid: (string|null)[][];
 

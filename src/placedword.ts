@@ -1,4 +1,6 @@
-class PlacedWord {
+import { Position } from "position";
+
+export class PlacedWord {
     readonly word;
     readonly direction;
     readonly position;
