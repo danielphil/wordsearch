@@ -31,7 +31,6 @@ function fit(wordlist: string[], placedWords: PlacedWord[], gridSpec: GridSpec):
         const position = emptySpots.splice(i, 1)[0];
         const placedWord = new PlacedWord(currentWord, 0, position);
         if (currentGrid.tryPlaceWordInGrid(placedWord)) {
-            // TODO: fix this!!!!!!
             const remainingWords = wordlist.length > 1 ? wordlist.slice(1 - wordlist.length) : [];
             const result = fit(remainingWords, placedWords.concat(placedWord), gridSpec);
             if (result !== null) {
