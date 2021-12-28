@@ -1,5 +1,5 @@
-import { GridSpec} from "gridspec";
-import { Position } from "position";
+import { GridSpec} from "../src/gridspec";
+import { Position } from "../src/position";
 
 var assert = require('assert');
 

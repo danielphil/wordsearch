@@ -11,6 +11,10 @@ export class RenderedGrid {
         this.grid = RenderedGrid.render(placedWords, gridSpec);
     }
 
+    charAt(x: number, y: number): string|null {
+        return this.grid[y][x];
+    }
+
     toStrings(): string[] {
         const result = [];
         for (let y = 0; y < this.gridSpec.height; y++) {
