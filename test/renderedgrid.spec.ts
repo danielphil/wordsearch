@@ -57,6 +57,23 @@ describe('RenderedGrid', function() {
             runTest(4, 4, Direction.LeftDown, new Position(3, 0), ["   t", "  e ", " s  ", "t   "], [new Position(2, 0), new Position(3, 1)]);
         });
     });
+
+    describe('#overlap', function() {
+        it('checkRightRejected', function() {
+            const grid = new RenderedGrid(new GridSpec(4, 1), [
+                new PlacedWord("test", Direction.Right, new Position(0, 0))
+            ]);
+            assert.ok(!grid.tryPlaceWordInGrid(new PlacedWord("tse", Direction.Left, new Position(3, 0))));
+        });
+        it('checkOverlapsOK', function() {
+            const grid = new RenderedGrid(new GridSpec(4, 4), [
+                new PlacedWord("test", Direction.Right, new Position(0, 0)),
+                new PlacedWord("so", Direction.Left, new Position(1, 3))
+            ]);
+            assert.ok(grid.tryPlaceWordInGrid(new PlacedWord("eggs", Direction.Down, new Position(1, 0))));
+            assert.ok(grid.tryPlaceWordInGrid(new PlacedWord("offt", Direction.RightUp, new Position(0, 3))));
+        });
+    });
 });
 
 function runTest(gridWidth: number, gridHeight: number, direction: Direction, startPosition: Position, expectedGrid: string[], failurePositions: Position[]) {
