@@ -26,34 +26,58 @@ describe('RenderedGrid', function() {
         const word = "test";
 
         it('checkLeftToRight', function() {
-            const spec = new GridSpec(4, 1);
-            const grid = new RenderedGrid(spec, []);
-            const placed = new PlacedWord(word, Direction.Right, new Position(0, 0));
-            assert.ok(grid.tryPlaceWordInGrid(placed));
-            check_grid(spec, [placed], ["test"]);
-
-            assert.ok(!grid.tryPlaceWordInGrid(new PlacedWord(word, Direction.Right, new Position(1, 0))));
-            assert.ok(!grid.tryPlaceWordInGrid(new PlacedWord(word, Direction.Right, new Position(0, 1))));
+            runTest(4, 1, Direction.Right, new Position(0, 0), ["test"], [new Position(1, 0), new Position(0, 1)]);
         });
 
         it('checkRightToLeft', function() {
-            const spec = new GridSpec(4, 1);
-            const grid = new RenderedGrid(spec, []);
-            const placed = new PlacedWord(word, Direction.Left, new Position(3, 0));
-            assert.ok(grid.tryPlaceWordInGrid(placed));
-            check_grid(spec, [placed], ["tset"]);
+            runTest(4, 1, Direction.Left, new Position(3, 0), ["tset"], [new Position(2, 0), new Position(3, 1)]);
+        });
 
-            assert.ok(!grid.tryPlaceWordInGrid(new PlacedWord(word, Direction.Right, new Position(2, 0))));
-            assert.ok(!grid.tryPlaceWordInGrid(new PlacedWord(word, Direction.Right, new Position(3, 1))));
+        it('checkUp', function() {
+            runTest(1, 4, Direction.Up, new Position(0, 3), ["t", "s", "e", 't'], [new Position(0, 2), new Position(1, 3)]);
+        });
+
+        it('checkDown', function() {
+            runTest(1, 4, Direction.Down, new Position(0, 0), ["t", "e", "s", 't'], [new Position(0, 1), new Position(1, 0)]);
+        });
+
+        it('checkRightUp', function() {
+            runTest(4, 4, Direction.RightUp, new Position(0, 3), ["   t", "  s ", " e  ", "t   "], [new Position(1, 3), new Position(0, 2)]);
+        });
+
+        it('checkRightDown', function() {
+            runTest(4, 4, Direction.RightDown, new Position(0, 0), ["t   ", " e  ", "  s ", "   t"], [new Position(1, 0), new Position(0, 1)]);
+        });
+
+        it('checkLeftUp', function() {
+            runTest(4, 4, Direction.LeftUp, new Position(3, 3), ["t   ", " s  ", "  e ", "   t"], [new Position(2, 3), new Position(3, 2)]);
+        });
+
+        it('checkLeftDown', function() {
+            runTest(4, 4, Direction.LeftDown, new Position(3, 0), ["   t", "  e ", " s  ", "t   "], [new Position(2, 0), new Position(3, 1)]);
         });
     });
 });
+
+function runTest(gridWidth: number, gridHeight: number, direction: Direction, startPosition: Position, expectedGrid: string[], failurePositions: Position[]) {
+    const spec = new GridSpec(gridWidth, gridHeight);
+    const grid = new RenderedGrid(spec, []);
+    const word = "test";
+    const placed = new PlacedWord(word, direction, startPosition);
+    assert.ok(grid.tryPlaceWordInGrid(placed));
+    check_grid(spec, [placed], expectedGrid);
+
+    failurePositions.forEach(pos => {
+        assert.ok(!grid.tryPlaceWordInGrid(new PlacedWord(word, direction, pos)));
+    });
+}
 
 function check_grid(spec: GridSpec, words: PlacedWord[], expected: string[]) {
     const renderedGrid = new RenderedGrid(spec, words);
     for (let y = 0; y < spec.height; y++) {
         for (let x = 0; x < spec.width; x++) {
-            assert.equal(renderedGrid.charAt(x, y), expected[y].charAt(x));
+            const c = renderedGrid.charAt(x, y) ?? " ";
+            assert.equal(c, expected[y].charAt(x));
         }
     }
 }
