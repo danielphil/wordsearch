@@ -1,5 +1,5 @@
-import { Direction } from "direction";
-import { Position } from "position";
+import { Direction } from "./direction";
+import { Position } from "./position";
 
 export class PlacedWord {
     readonly word;

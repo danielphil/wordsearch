@@ -2,7 +2,7 @@ import { GridSpec } from "./gridspec";
 import { RenderedGrid } from "./renderedgrid";
 import { PlacedWord } from "./placedword";
 import seedrandom from "seedrandom";
-import { Direction } from "direction";
+import { Direction } from "./direction";
 
 export const BASIC_DIRECTIONS = [Direction.Right, Direction.Down];
 export const BASIC_DIAGONAL_DIRECTIONS = [Direction.Right, Direction.Down, Direction.RightDown, Direction.RightUp];

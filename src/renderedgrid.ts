@@ -1,7 +1,7 @@
-import { Direction } from "direction";
-import { GridSpec } from "gridspec";
-import { PlacedWord } from "placedword";
-import { Position } from "position";
+import { Direction } from "./direction";
+import { GridSpec } from "./gridspec";
+import { PlacedWord } from "./placedword";
+import { Position } from "./position";
 
 export class RenderedGrid {
     readonly gridSpec;

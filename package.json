@@ -1,14 +1,19 @@
 {
+  "private": true,
   "devDependencies": {
     "@types/mocha": "^9.0.0",
     "mocha": "^9.1.3",
+    "ts-loader": "^9.2.6",
     "ts-node": "^10.3.0",
     "tsconfig-paths": "^3.11.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1"
   },
   "scripts": {
     "test": "npx mocha --require tsconfig-paths/register --require ts-node/register \"test/**/*.spec.ts\"",
-    "demo": "node --require ts-node/register --require tsconfig-paths/register src/demo.ts"
+    "demo": "node --require ts-node/register --require tsconfig-paths/register src/demo.ts",
+    "build": "webpack"
   },
   "dependencies": {
     "@types/seedrandom": "^3.0.1",
