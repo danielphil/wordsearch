@@ -31,6 +31,10 @@ export class RenderedGrid {
         return result;
     }
 
+    logGrid() {
+        this.toStrings().forEach(s => console.log(s));
+    }
+
     tryPlaceWordInGrid(wordToPlace: PlacedWord): boolean {
         const positions = wordToPlace.insertPositions();
         

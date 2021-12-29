@@ -4,18 +4,22 @@ import { PlacedWord } from "./placedword";
 import seedrandom from "seedrandom";
 import { Direction } from "direction";
 
-export function build(words: string[], spec: GridSpec, randomSeed?: string): RenderedGrid|null {
+export const BASIC_DIRECTIONS = [Direction.Right, Direction.Down];
+export const BASIC_DIAGONAL_DIRECTIONS = [Direction.Right, Direction.Down, Direction.RightDown, Direction.RightUp];
+export const ALL_DIRECTIONS = [Direction.Right, Direction.Left, Direction.Up, Direction.Down, Direction.RightUp, Direction.RightDown, Direction.LeftUp, Direction.LeftDown];
+
+export function build(words: string[], spec: GridSpec, directions?: Direction[], randomSeed?: string): RenderedGrid|null {
     // order words largest to smallest
     const orderedWords = [...words].sort((a, b) => b.length - a.length);
     const rng = randomSeed ? seedrandom(randomSeed) : seedrandom();
-    const placedWords = fit(orderedWords, [], spec, rng);
+    const placedWords = fit(orderedWords, [], spec, directions ?? ALL_DIRECTIONS, rng);
     if (placedWords === null) {
         return null;
     }
     return new RenderedGrid(spec, placedWords);
 }
 
-function fit(wordlist: string[], placedWords: PlacedWord[], gridSpec: GridSpec, rng: any): PlacedWord[]|null {
+function fit(wordlist: string[], placedWords: PlacedWord[], gridSpec: GridSpec, directions: Direction[], rng: any): PlacedWord[]|null {
     if (wordlist.length === 0) {
         return placedWords;
     }
@@ -31,12 +35,19 @@ function fit(wordlist: string[], placedWords: PlacedWord[], gridSpec: GridSpec, 
     while (emptySpots.length > 0) {
         const i = Math.min(Math.trunc(rng() * emptySpots.length), emptySpots.length - 1);
         const position = emptySpots.splice(i, 1)[0];
-        const placedWord = new PlacedWord(currentWord, Direction.Right, position);
-        if (currentGrid.tryPlaceWordInGrid(placedWord)) {
-            const remainingWords = wordlist.length > 1 ? wordlist.slice(1 - wordlist.length) : [];
-            const result = fit(remainingWords, placedWords.concat(placedWord), gridSpec, rng);
-            if (result !== null) {
-                return result;
+
+        const unusedDirections = [...directions];
+        while (unusedDirections.length > 0) {
+            const d = Math.min(Math.trunc(rng() * unusedDirections.length), unusedDirections.length - 1);
+            const direction = unusedDirections.splice(d, 1)[0];
+
+            const placedWord = new PlacedWord(currentWord, direction, position);
+            if (currentGrid.tryPlaceWordInGrid(placedWord)) {
+                const remainingWords = wordlist.length > 1 ? wordlist.slice(1 - wordlist.length) : [];
+                const result = fit(remainingWords, placedWords.concat(placedWord), gridSpec, directions, rng);
+                if (result !== null) {
+                    return result;
+                }
             }
         }
     }

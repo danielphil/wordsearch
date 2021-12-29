@@ -1,5 +1,6 @@
+import { Direction } from "direction";
 import { RenderedGrid } from "renderedgrid";
-import { build } from "wordsearch";
+import { ALL_DIRECTIONS, BASIC_DIAGONAL_DIRECTIONS, BASIC_DIRECTIONS, build } from "wordsearch";
 import { GridSpec} from "../src/gridspec";
 import { Position } from "../src/position";
 
@@ -9,17 +10,26 @@ describe('Wordsearch', function() {
     describe('#regressionTests', function() {
         const randomSeed = "1234";
         it('basic grid', function() {
-            //assert.ok(!spec.isValidPosition(new Position(-1, 0)), "x position cannot be negative");
             const spec = new GridSpec(5, 2);
-            const grid = build(["word", "toast"], spec, randomSeed);
-            grid!.toStrings().forEach(s => console.log(s));
-            check_grid(spec, grid!, ["toast ", " word"]);
+            const grid = build(["word", "toast"], spec, BASIC_DIRECTIONS, randomSeed);
+            check_grid(spec, grid!, [" word", "toast"]);
+        });
+
+        it('diagonal grid', function() {
+            const spec = new GridSpec(5, 5);
+            const grid = build(["word", "toast"], spec, [Direction.RightDown, Direction.RightUp], randomSeed);
+            check_grid(spec, grid!, ["t    ", "wo   ", " oa  ", "  rs ", "   dt"]);
+        });
+
+        it('all directions', function() {
+            const spec = new GridSpec(5, 5);
+            const grid = build(["word", "toast", "some", "road", "dasio", "assir"], spec, ALL_DIRECTIONS, randomSeed);
+            check_grid(spec, grid!, ["some ", "rissa", "tsaot", "daor ", " drow"]);
         });
 
         it('not enough space', function() {
-            //assert.ok(!spec.isValidPosition(new Position(-1, 0)), "x position cannot be negative");
             const spec = new GridSpec(5, 1);
-            const grid = build(["word", "toast"], spec, randomSeed);
+            const grid = build(["word", "toast"], spec, ALL_DIRECTIONS, randomSeed);
             assert.equal(grid, null);
         });
     });
