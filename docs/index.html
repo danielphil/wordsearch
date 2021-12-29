@@ -6,10 +6,32 @@
         #output {
             font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
             letter-spacing: 1.0em;
+            display: table;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        #clues {
+            display: table;
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 1em;
         }
     </style>
     <script src="wordsearch_all.js"></script>
     <script>
+        function populateWordList(words) {
+            const columns = [
+                document.getElementById("wordlistRow1"),
+                document.getElementById("wordlistRow2"),
+                document.getElementById("wordlistRow3")];
+
+            columns.forEach(div => div.innerText = "");
+
+            words.forEach((word, index) => {
+                columns[index % columns.length].innerText += word + "\n";
+            });
+        }
+
         window.addEventListener('load', (event) => {
             const WORDLIST_STORAGE_KEY = "wordlist";
             const buildButton = document.getElementById("buildWordsearch");
@@ -28,6 +50,7 @@
                     outputArea.innerText = "Unable to generate wordsearch!";
                 } else {
                     outputArea.innerText = result.renderToString();
+                    populateWordList(words);
                 }
             }, false);
         });
@@ -60,6 +83,17 @@
         </div>
         <hr/>
         <div id="output"></div>
+        <p class="lead" id="clues">Clues</p>
+        <div class="container-fluid" id="cluelist">
+            <div class="row justify-content-md-center">
+              <div class="col-4" id="wordlistRow1">
+              </div>
+              <div class="col-4" id="wordlistRow2">
+              </div>
+              <div class="col-4" id="wordlistRow3">
+              </div>
+            </div>
+          </div>
     </div>
 </body>
 </html>
