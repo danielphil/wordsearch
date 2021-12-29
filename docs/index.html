@@ -22,6 +22,9 @@
             margin-right: auto;
             margin-left: auto;
         }
+        .credits {
+            font-size: small;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -121,6 +124,15 @@
 <body>
     <div class="container">
         <div class="row d-print-none">
+            <div>
+                <h1>Wordsearch Puzzle Generator</h1>
+                <p class="credits">Developed by <a href="https://twitter.com/danielp">@danielp</a>. Source on <a href="https://github.com/danielphil/wordsearch">GitHub</a>. Please let me know if you find this useful or have comments!</p>
+                <p>
+                    Enter a list of words below separated by spaces or newlines, configure settings for the puzzle and then press Build Wordsearch
+                    to create the puzzle. Build Wordsearch will recreate the puzzle based on the current settings.
+                    To create a worksheet, use the print function in your web browser.
+                </p>
+            </div>
             <div class="col">
                 <div class="input-group">
                     <span class="input-group-text">Puzzle title</span>
