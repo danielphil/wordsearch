@@ -33,12 +33,12 @@ export class RenderedGrid {
         return result;
     }
 
-    renderToString(): string {
+    renderToString(showSolution?: boolean): string {
         let result = "";
         for (let y = 0; y < this.gridSpec.height; y++) {
             let row = "";
             for (let x = 0; x < this.gridSpec.width; x++) {
-                row += this.grid[y][x] ?? RenderedGrid.randomLetter();
+                row += this.grid[y][x] ?? (showSolution ? "." : RenderedGrid.randomLetter());
             }
             result += row + "\n";
         }
