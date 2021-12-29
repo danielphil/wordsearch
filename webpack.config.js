@@ -1,14 +1,14 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/wordsearch.ts',
+  entry: './src/index.ts',
   devtool: 'inline-source-map',
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader'//,
-        //exclude: /node_modules/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
     ],
   },
@@ -17,6 +17,8 @@ module.exports = {
   },
   output: {
     filename: 'wordsearch_all.js',
+    libraryTarget: 'var',
+    library: "WordSearch",
     path: path.resolve(__dirname, 'dist'),
   },
 };
