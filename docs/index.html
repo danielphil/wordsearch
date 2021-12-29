@@ -17,6 +17,11 @@
             margin-left: auto;
             margin-top: 1em;
         }
+        #puzzleTitleDisplay {
+            display: table;
+            margin-right: auto;
+            margin-left: auto;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -38,6 +43,7 @@
         $(() => {
             const WORDLIST_STORAGE_KEY = "wordlist";
             const DIFFICULTY_STORAGE_KEY = "difficulty";
+            const PUZZLE_TITLE_STORAGE_KEY = "puzzleTitle";
             const difficultyMap = {
                 "easy": WordSearch.BASIC_DIRECTIONS,
                 "medium": WordSearch.BASIC_DIAGONAL_DIRECTIONS,
@@ -54,11 +60,19 @@
             if (savedDifficulty) {
                 document.getElementById("difficulty-select").value = savedDifficulty;
             }
+
+            const savedTitle = localStorage.getItem(PUZZLE_TITLE_STORAGE_KEY);
+            if (savedTitle) {
+                document.getElementById("puzzleTitle").value = savedTitle;
+            }
             
             buildButton.addEventListener("click", () => {
                 const wordlistArea = document.getElementById("wordlist");
                 const outputArea = document.getElementById("output");
+                const puzzleTitle = document.getElementById("puzzleTitle");
+                const puzzleTitleDisplay = document.getElementById("puzzleTitleDisplay");
                 localStorage.setItem(WORDLIST_STORAGE_KEY, wordlistArea.value);
+                localStorage.setItem(PUZZLE_TITLE_STORAGE_KEY, puzzleTitle.value);
                 const words = wordlistArea.value.split(/\s+/);
 
                 const directions = difficultyMap[document.getElementById("difficulty-select").value];
@@ -69,6 +83,7 @@
                 } else {
                     outputArea.innerText = result.renderToString();
                     populateWordList(words);
+                    puzzleTitleDisplay.innerText = puzzleTitle.value;
                 }
             });
             
@@ -83,11 +98,16 @@
         <div class="row">
             <div class="col">
                 <div class="input-group">
+                    <span class="input-group-text">Puzzle title</span>
+                    <input class="form-control" aria-label="Puzzle title" id="puzzleTitle"></textarea>
+                </div>
+                <div class="input-group">
                     <span class="input-group-text">Word list</span>
                     <textarea class="form-control" aria-label="Word list" id="wordlist"></textarea>
                 </div>
             </div>
             <div class="col">
+                <div>
                 <label for="difficulty-select">Word directions:</label>
                 
                 <select name="difficulty" id="difficulty-select">
@@ -95,11 +115,12 @@
                     <option value="medium">&#x27a1; &#x2b07; &#x2198; &#x2197;</option>
                     <option value="hard">&#x2b06; &#x2197; &#x27a1; &#x2198; &#x2b07; &#x2199; &#x2b05; &#x2196;</option>
                 </select>
-                
+            </div>
                 <button type="button" class="btn btn-primary" id="buildWordsearch">Build Wordsearch</button>
             </div>
         </div>
         <hr/>
+        <h1 id="puzzleTitleDisplay"></h1>
         <div id="output"></div>
         <p class="lead" id="clues">Clues</p>
         <div class="container-fluid" id="cluelist">
