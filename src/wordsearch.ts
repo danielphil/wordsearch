@@ -1,19 +1,21 @@
-import { GridSpec } from "gridspec";
-import { RenderedGrid } from "renderedgrid";
-import { PlacedWord } from "placedword";
+import { GridSpec } from "./gridspec";
+import { RenderedGrid } from "./renderedgrid";
+import { PlacedWord } from "./placedword";
+import seedrandom from "seedrandom";
+import { Direction } from "direction";
 
-function makeWordsearch() {
-    const spec = new GridSpec(5, 2);
-    const result = fit(["word", "toast"], [], spec);
-    if (result === null) {
-        console.log("Couldn't fit all the words")
-    } else {
-        const grid = new RenderedGrid(spec, result);
-        grid.toStrings().forEach(s => console.log(s));
+export function build(words: string[], spec: GridSpec, randomSeed?: string): RenderedGrid|null {
+    // order words largest to smallest
+    const orderedWords = [...words].sort((a, b) => b.length - a.length);
+    const rng = randomSeed ? seedrandom(randomSeed) : seedrandom();
+    const placedWords = fit(orderedWords, [], spec, rng);
+    if (placedWords === null) {
+        return null;
     }
+    return new RenderedGrid(spec, placedWords);
 }
 
-function fit(wordlist: string[], placedWords: PlacedWord[], gridSpec: GridSpec): PlacedWord[]|null {
+function fit(wordlist: string[], placedWords: PlacedWord[], gridSpec: GridSpec, rng: any): PlacedWord[]|null {
     if (wordlist.length === 0) {
         return placedWords;
     }
@@ -27,12 +29,12 @@ function fit(wordlist: string[], placedWords: PlacedWord[], gridSpec: GridSpec):
 	// randomly select an empty position in the grid
     const emptySpots = currentGrid.emptySpots();
     while (emptySpots.length > 0) {
-        const i = Math.min(Math.trunc(Math.random() * emptySpots.length), emptySpots.length - 1);
+        const i = Math.min(Math.trunc(rng() * emptySpots.length), emptySpots.length - 1);
         const position = emptySpots.splice(i, 1)[0];
-        const placedWord = new PlacedWord(currentWord, 0, position);
+        const placedWord = new PlacedWord(currentWord, Direction.Right, position);
         if (currentGrid.tryPlaceWordInGrid(placedWord)) {
             const remainingWords = wordlist.length > 1 ? wordlist.slice(1 - wordlist.length) : [];
-            const result = fit(remainingWords, placedWords.concat(placedWord), gridSpec);
+            const result = fit(remainingWords, placedWords.concat(placedWord), gridSpec, rng);
             if (result !== null) {
                 return result;
             }
@@ -41,5 +43,3 @@ function fit(wordlist: string[], placedWords: PlacedWord[], gridSpec: GridSpec):
 
     return null;
 }
-
-makeWordsearch();

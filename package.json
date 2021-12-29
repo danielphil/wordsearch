@@ -7,6 +7,11 @@
     "typescript": "^4.4.4"
   },
   "scripts": {
-    "test": "npx mocha --require tsconfig-paths/register --require ts-node/register \"test/**/*.spec.ts\""
+    "test": "npx mocha --require tsconfig-paths/register --require ts-node/register \"test/**/*.spec.ts\"",
+    "demo": "node --require ts-node/register --require tsconfig-paths/register src/demo.ts"
+  },
+  "dependencies": {
+    "@types/seedrandom": "^3.0.1",
+    "seedrandom": "^3.0.5"
   }
 }
