@@ -44,26 +44,38 @@
             const WORDLIST_STORAGE_KEY = "wordlist";
             const DIFFICULTY_STORAGE_KEY = "difficulty";
             const PUZZLE_TITLE_STORAGE_KEY = "puzzleTitle";
+            const PUZZLE_SIZE_STORAGE_KEY = "puzzleSize";
             const difficultyMap = {
                 "easy": WordSearch.BASIC_DIRECTIONS,
                 "medium": WordSearch.BASIC_DIAGONAL_DIRECTIONS,
                 "hard": WordSearch.ALL_DIRECTIONS
-            }
-
+            };
+            const sizeMap = {
+                "small": new WordSearch.GridSpec(10, 10),
+                "medium": new WordSearch.GridSpec(15, 15),
+                "large": new WordSearch.GridSpec(20, 20),
+                "xlarge": new WordSearch.GridSpec(25, 25),
+            };
+            
             const buildButton = document.getElementById("buildWordsearch");
             const savedWords = localStorage.getItem(WORDLIST_STORAGE_KEY);
             if (savedWords) {
                 document.getElementById("wordlist").value = savedWords;
             }
-
+            
             const savedDifficulty = localStorage.getItem(DIFFICULTY_STORAGE_KEY);
             if (savedDifficulty) {
                 document.getElementById("difficulty-select").value = savedDifficulty;
             }
-
+            
             const savedTitle = localStorage.getItem(PUZZLE_TITLE_STORAGE_KEY);
             if (savedTitle) {
                 document.getElementById("puzzleTitle").value = savedTitle;
+            }
+
+            const savedSize = localStorage.getItem(PUZZLE_SIZE_STORAGE_KEY);
+            if (savedSize) {
+                document.getElementById("size-select").value = savedSize;
             }
             
             buildButton.addEventListener("click", () => {
@@ -71,13 +83,15 @@
                 const outputArea = document.getElementById("output");
                 const puzzleTitle = document.getElementById("puzzleTitle");
                 const puzzleTitleDisplay = document.getElementById("puzzleTitleDisplay");
+                const puzzleSize = document.getElementById("size-select");
                 localStorage.setItem(WORDLIST_STORAGE_KEY, wordlistArea.value);
                 localStorage.setItem(PUZZLE_TITLE_STORAGE_KEY, puzzleTitle.value);
+                localStorage.setItem(PUZZLE_SIZE_STORAGE_KEY, puzzleSize.value);
                 const words = wordlistArea.value.split(/\s+/);
-
+                
                 const directions = difficultyMap[document.getElementById("difficulty-select").value];
-
-                const result = WordSearch.build(words, new WordSearch.GridSpec(20, 20), directions);
+                
+                const result = WordSearch.build(words, sizeMap[puzzleSize.value], directions);
                 if (result === null) {
                     outputArea.innerText = "Unable to generate wordsearch!";
                 } else {
@@ -108,14 +122,22 @@
             </div>
             <div class="col">
                 <div>
-                <label for="difficulty-select">Word directions:</label>
-                
-                <select name="difficulty" id="difficulty-select">
-                    <option value="easy">&#x27a1; &#x2b07;</option>
-                    <option value="medium">&#x27a1; &#x2b07; &#x2198; &#x2197;</option>
-                    <option value="hard">&#x2b06; &#x2197; &#x27a1; &#x2198; &#x2b07; &#x2199; &#x2b05; &#x2196;</option>
-                </select>
-            </div>
+                    <label for="difficulty-select">Word directions:</label>
+                    <select name="difficulty" id="difficulty-select">
+                        <option value="easy">&#x27a1; &#x2b07;</option>
+                        <option value="medium">&#x27a1; &#x2b07; &#x2198; &#x2197;</option>
+                        <option value="hard">&#x2b06; &#x2197; &#x27a1; &#x2198; &#x2b07; &#x2199; &#x2b05; &#x2196;</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="size-select">Puzzle size:</label>
+                    <select name="size" id="size-select">
+                        <option value="small">10x10</option>
+                        <option value="medium">15x15</option>
+                        <option value="large">20x20</option>
+                        <option value="xlarge">25x25</option>
+                    </select>
+                </div>
                 <button type="button" class="btn btn-primary" id="buildWordsearch">Build Wordsearch</button>
             </div>
         </div>
