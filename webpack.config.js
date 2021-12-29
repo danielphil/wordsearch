@@ -19,6 +19,6 @@ module.exports = {
     filename: 'wordsearch_all.js',
     libraryTarget: 'var',
     library: "WordSearch",
-    path: path.resolve(__dirname, 'site'),
+    path: path.resolve(__dirname, 'docs'),
   },
 };
