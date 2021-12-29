@@ -3,6 +3,8 @@ import { GridSpec } from "./gridspec";
 import { PlacedWord } from "./placedword";
 import { Position } from "./position";
 
+const FILLER_CHARS = "abcdefghijklmnopqrstuvwxyz";
+
 export class RenderedGrid {
     readonly gridSpec;
     readonly grid: (string|null)[][];
@@ -29,6 +31,18 @@ export class RenderedGrid {
             result.push(row);
         }
         return result;
+    }
+
+    renderToString(): string {
+        let result = "";
+        for (let y = 0; y < this.gridSpec.height; y++) {
+            let row = "";
+            for (let x = 0; x < this.gridSpec.width; x++) {
+                row += this.grid[y][x] ?? RenderedGrid.randomLetter();
+            }
+            result += row + "\n";
+        }
+        return result.toUpperCase();
     }
 
     logGrid() {
@@ -117,4 +131,8 @@ export class RenderedGrid {
     
         return false;
     }
+
+    private static randomLetter() {
+        return FILLER_CHARS[Math.floor(Math.random() * FILLER_CHARS.length)]
+      }
 }

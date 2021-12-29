@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: './src/index.ts',
-  devtool: 'inline-source-map',
+  //devtool: 'inline-source-map',
   module: {
     rules: [
       {
@@ -19,6 +19,6 @@ module.exports = {
     filename: 'wordsearch_all.js',
     libraryTarget: 'var',
     library: "WordSearch",
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'site'),
   },
 };
