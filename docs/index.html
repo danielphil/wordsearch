@@ -25,6 +25,13 @@
         .credits {
             font-size: small;
         }
+        .smallcredits {
+            font-size: x-small;
+            display: table;
+            margin-top: 3em;
+            margin-left: auto;
+            margin-right: 0px;
+        }
     </style>
     <title>Wordsearch Puzzle Generator</title>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -130,8 +137,8 @@
                 <h1>Wordsearch Puzzle Generator</h1>
                 <p class="credits">Developed by <a href="https://twitter.com/danielp">@danielp</a>. Source on <a href="https://github.com/danielphil/wordsearch">GitHub</a>. Please let me know if you find this useful or have comments!</p>
                 <p>
-                    Enter a list of words below separated by spaces or newlines, configure settings for the puzzle and then press Build Wordsearch
-                    to create the puzzle. Build Wordsearch will recreate the puzzle based on the current settings.
+                    Enter a list of words below separated by spaces or by pressing return between words. Configure settings for the puzzle and then press Build Wordsearch
+                    to create the puzzle. Clicking Build Wordsearch again will create a new puzzle based on the current settings.
                     To create a worksheet, use the print function in your web browser.
                 </p>
             </div>
@@ -174,7 +181,7 @@
                   </div>
             </div>
         </div>
-        <hr/>
+        <hr class="d-print-none"/>
         <h1 id="puzzleTitleDisplay"></h1>
         <div id="output"></div>
         <p class="lead" id="clues">Clues</p>
@@ -188,6 +195,7 @@
                 </div>
             </div>
         </div>
+        <p class="smallcredits">Created using <a href="https://danielphil.github.io/wordsearch/">https://danielphil.github.io/wordsearch/</a></p>
     </div>
 </body>
 </html>
